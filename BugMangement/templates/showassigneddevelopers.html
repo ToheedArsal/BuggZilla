@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Developers</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="post" action="{% url 'removedev' project.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="developer_select">Select A Developer:</label>
+                        <select name="developer_select" class="form-control">
+                            <option value="" selected disabled>Select a developer</option>
+                            {% for developer in developers %}
+                                <option value="{{ developer.username }}">{{ developer.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-info btn-block">Remove Developer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

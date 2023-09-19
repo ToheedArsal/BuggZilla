@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Bug</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+
+    {% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="form">
+                <h2 class="text-center">Report A Bug</h2>
+                {% if error %}
+                <p class="text-center">{{ error }}</p>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.bug_title.id_for_label }}">Bug Title:</label>
+                        <input type="text" class="form-control" id="{{ form.bug_title.id_for_label }}" minlength="5" maxlength="50" required name="{{ form.bug_title.name }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.bug_description.id_for_label }}">Bug Description:</label>
+                        <textarea class="form-control" id="{{ form.bug_description.id_for_label }}" name="{{ form.bug_description.name }}" minlength="3" maxlength="200"  rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.deadline.id_for_label }}">Deadline:</label>
+                        <input type="date" class="form-control" id="{{ form.deadline.id_for_label }}" name="{{ form.deadline.name }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.screenshot.id_for_label }}">Screenshot (jpg, jpeg, png):</label>
+                        <input type="file"  class="form-control-file" id="{{ form.screenshot.id_for_label }}" name="{{ form.screenshot.name }}" accept=".jpg, .jpeg, .png">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="{{ form.bug_type.id_for_label }}">Bug Type:</label>
+                        <select class="form-control" id="{{ form.bug_type_for_label }}" name="{{ form.bug_type.name }}">
+                            <option disabled selected value="">Select Bug Type</option>
+                            {% for choice in form.bug_type.field.choices %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="{{ form.status.id_for_label }}">Status:</label>
+                        <select class="form-control" id="{{ form.status.id_for_label }}" name="{{ form.status.name }}">
+                            <option disabled selected value="">Select Status</option>
+                            {% for choice in form.status.field.choices %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

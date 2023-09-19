@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="form">
+        <h2 class="text-center">Sign Up</h2>
+        {% if error %}
+        <p class="text-center">{{ error }}</p>
+        {% endif %}
+        <form method="post"%>
+            {% csrf_token %}
+            <div class="form-group">
+                <label  for="{{ form.first_name.id_for_label }}">First Name:</label>
+                <input type="text" class="form-control" id="{{ form.first_name.id_for_label }}" minlength="5" maxlength="10" required name="{{ form.first_name.name }}">
+            </div>
+            
+            <div class="form-group">
+                <label  for="{{ form.last_name.id_for_label }}">Last Name:</label>
+                <input type="text" class="form-control" id="{{ form.last_name.id_for_label }}" minlength="5" maxlength="10" required name="{{ form.last_name.name }}">
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email:</label>
+                <input type="email" class="form-control" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}">
+            </div>
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                <input type="username" class="form-control" id="{{ form.username.id_for_label }}" required name="{{ form.username.name }}">
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">Password:</label>
+                <input type="password" class="form-control" id="{{ form.password1.id_for_label }}" minlength="8" maxlength="20" required name="{{ form.password1.name }}">
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+                <input type="password" class="form-control" id="{{ form.password2.id_for_label }}" minlength="8" maxlength="20" required name="{{ form.password2.name }}">
+            </div>
+
+            <div class="form-group  mb-3">
+                <label for="{{ form.user_type.id_for_label }}">User Type:</label>
+                <select class="form-control" id="{{ form.user_type.id_for_label }}" name="{{ form.user_type.name }}">
+                    <option disabled selected value="">Select User Type</option>
+                    {% for choice in form.user_type.field.choices %}
+                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        </form>
+        <div>
+            <p class="text-center mt-4">Already Have An Account? <a href="{% url 'loginaccount' %}">Login In</a></p>
+        </div>
+    </div>
+{% endblock %}

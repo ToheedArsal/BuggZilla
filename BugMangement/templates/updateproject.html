@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+    Update The Project
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="form">
+        <h2 class="text-center">Update Project</h2>
+        {% if error %}
+        <p class="text-center">{{ error }}</p>
+        {% endif %}
+        <form method="post"%>
+            {% csrf_token %}
+            <div class="form-group">
+                <label  for="{{ form.project_name.id_for_label }}">Project Name:</label>
+                <input type="text" class="form-control" id="{{ form.project_name.id_for_label }}" name="{{ form.project_name.name }}" value="{{ form.instance.project_name }}" minlength="3" maxlength="20" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.project_description.id_for_label }}">Project Description:</label>
+                <textarea class="form-control" id="{{ form.project_description.id_for_label }}" name="{{ form.project_description.name }}" minlength="3" maxlength="200" required rows="5">{{ form.instance.project_description }}</textarea></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+        
+    </div>
+{% endblock %}

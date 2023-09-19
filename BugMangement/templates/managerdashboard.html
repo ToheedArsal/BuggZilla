@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Manager Panel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-sm btn-warning nav-link text-dark" href="{% url 'logoutaccount' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-0">
+        <div class="jumbotron">
+            <h1 class="display-4">{{username}}</h1>
+            <h3>Welcome to the Dashboard!</h3>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-3 px-0">
+        <div class="row mb-1 px-4">
+            <div class="col-md-6">
+                <h2 class="mb-4">Project List</h2>
+            </div>
+            <div class="col-md-6 text-right" role="group">
+                <form method="post" action="{% url 'addaproject' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Add A Project</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-responsive px-0">
+            <table class="table table-hover text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Developer</th>
+                        <th scope="col">QA</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <td>{{ project.project_name }}</td>
+                        <td>
+                            {% for developer in project.developer.all %}
+                            {{ developer.username }}
+                            <br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for qa in project.qa.all %}
+                            {{ qa.username }}
+                            <br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <form method="post" action="{% url 'deleteproject' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                                </form>
+                                <form method="post" action="{% url 'updateproject' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-info mr-2">Update</button>
+                                </form>
+                                <form method="post" action="{% url 'showallavailabledevelopers' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success mr-2">Assign A Developer</button>
+                                </form>
+                                <form method="post" action="{% url 'showallavailableqa' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success mr-2">Assign A QA</button>
+                                </form>
+                                <form method="post" action="{% url 'showassigneddeveloper' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger mr-2">Remove A Developer</button>
+                                </form>
+                                <form method="post" action="{% url 'showassignedqa' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Remove A QA</button>
+                                </form>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available QAs</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="post" action="{% url 'assignaqa' project.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="qa_select">Select A QA:</label>
+                        <select name="qa_select" class="form-control">
+                            <option value="" selected disabled>Select a QA</option>
+                            {% for qa in excluded_qas %}
+                                <option value="{{ qa.username }}">{{ qa.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-info btn-block">Assign QA</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

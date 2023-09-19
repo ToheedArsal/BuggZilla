@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+    Create A Project
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="form">
+        <h2 class="text-center">Create A New Project</h2>
+        {% if error %}
+        <p class="text-center">{{ error }}</p>
+        {% endif %}
+        <form method="post"%>
+            {% csrf_token %}
+            <div class="form-group">
+                <label  for="{{ form.project_name.id_for_label }}">Project Name:</label>
+                <input type="text" class="form-control" id="{{ form.project_name.id_for_label }}" name="{{ form.project_name.name }}" minlength="3" maxlength="20" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.project_description.id_for_label }}">Project Description:</label>
+                <textarea class="form-control" id="{{ form.project_description.id_for_label }}" name="{{ form.project_description.name }}" rows="5" minlength="3" maxlength="200" required></textarea>
+            </div>
+
+          
+   
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+        
+    </div>
+{% endblock %}

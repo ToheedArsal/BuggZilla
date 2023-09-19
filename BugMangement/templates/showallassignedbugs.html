@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Bug Detail</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Bug Title</th>
+                    <th scope="col">Bug Description</th>
+                    <th scope="col">Bug Type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Action </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for bug in bugs %}
+                <tr>
+                    
+                    <td>{{bug.bug_title }}</td>
+                    <td>{{bug.bug_description }}</td>
+                    <td>{{bug.bug_type}} </td>
+                    <td>{{bug.status}}</td>
+                    <td>{{bug.deadline}}</td>
+                    <td>
+                        {% if bug.status == "started" %}
+                    <div class="btn-group" role="group">
+                        <form method="post" action="{% url 'markbug' bug_id=bug.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Mark as Completed/Resolved</button>
+                        </form>
+                    </div>
+                    {%endif%}
+                </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'developerdashboard'%}" class="btn btn-primary">Go to Dashboard</a>
+    </div>
+</body>
+</html>

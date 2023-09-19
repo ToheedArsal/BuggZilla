@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Bug Detail</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Bug Title</th>
+                    <th scope="col">Bug Description</th>
+                    <th scope="col">Bug Type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bug in bugs %}
+                <tr>
+                    
+                    <td>{{bug.bug_title }}</td>
+                    <td>{{bug.bug_description }}</td>
+                    <td>{{bug.bug_type}} </td>
+                    <td>{{bug.status}}</td>
+                    {% if bug.deadline is not None %}
+                    <td>{{bug.deadline}}</td>
+                    {% else %}
+                    <td> </td>
+                    {% endif %}
+                    
+                    
+                    <td>
+                        <div class="btn-group" role="group">
+                            <form method="post" action="{% url 'delete_a_bug' bug.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                            </form>
+                            <div class="btn-group" role="group">
+                                <form method="post" action="{% url 'update_bug' bug.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success mr-2">Edit</button>
+                                </form>
+                        <div>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'qadashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+    </div>
+</body>
+</html>

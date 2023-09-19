@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">QA Panel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-sm btn-warning nav-link text-dark" href="{% url 'logoutaccount' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-0">
+        <div class="jumbotron">
+            <h1 class="display-4">{{username}}</h1>
+            <h3>Welcome to the Dashboard!</h3>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-3 px-0">
+        <div class="row mb-1 px-4">
+            <div class="col-md-6">
+                <h2 class="mb-4">Project List</h2>
+            </div>
+            <div class="col-md-6 text-right" role="group">
+                <form method="post" action="{% url 'show_bug_of_qa' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Show All Bugs</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-responsive px-0">
+            <table class="table table-hover text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <td>{{ project.project_name }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <form method="post" action="{% url 'create_bug' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger mr-2">Report A Bug</button>
+                                </form>
+                                <form method="post" action="{% url 'show_bug_detail' project.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-info">Show All Bugs</button>
+                                </form>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
